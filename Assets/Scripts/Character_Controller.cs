@@ -32,25 +32,33 @@ public class Character_Controller : MonoBehaviour
         IsGrounded();
 
         //Character movement left and right
+
         float x = Input.GetAxis("Horizontal");
-        rigidbody.AddForce(new Vector3(x * speed, 0, 0));
+
+        rigidbody.velocity = new Vector2(x * speed, rigidbody.velocity.y);
         animator.SetFloat("xSpeed", Mathf.Abs(x));
 
+
         //Flip Character in desired direction
+
         if ((x < 0 && isFacingLeft == false) || (x > 0 && isFacingLeft == true))
         {
             isFacingLeft = !isFacingLeft;
             transform.localScale = new Vector3(transform.localScale.x * -1f, transform.localScale.y, transform.localScale.z);
         }
 
+
         //Character Jump
+
         if (isGrounded && Input.GetAxis("Jump")>0)
         {
             rigidbody.velocity = Vector2.up * jumpVel;
 
         }
 
+
         //Character Duck
+
         if(Input.GetKey(KeyCode.S))
         {
             animator.SetBool("isDucking", true);
@@ -60,8 +68,24 @@ public class Character_Controller : MonoBehaviour
             animator.SetBool("isDucking", false);
         }
 
+
+        //Instantiate Stars
+
+        for (int i = 0; i <= 100; i++)
+        {
+            if (isPressed == true && timer > 0.1f)
+            {
+
+                Instantiate(star, spawn.transform.position, Quaternion.identity);
+                timer = 0;
+            }
+
+        }
+        timer += Time.deltaTime;
+
     }
 
+    //Check if player is grounded
     private void IsGrounded()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.transform.position, 0.1f, platformLayerMask);
@@ -89,23 +113,12 @@ public class Character_Controller : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Chest") && Input.GetKeyDown(KeyCode.E))
+        if (other.CompareTag("Chest") && Input.GetKey(KeyCode.E))
         {
             other.gameObject.GetComponent<Animator>().SetBool("isPressed", true);
             isPressed = true;
            
         }
 
-        for (int i = 0; i <= 100; i++)
-        {
-            if (isPressed==true && timer > 0.1f)
-            {
-
-                Instantiate(star, spawn.transform.position, Quaternion.identity);
-                timer = 0;
-            }
-
-        }
-        timer += Time.deltaTime;
     }
 }
