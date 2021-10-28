@@ -41,7 +41,7 @@ public class Character_Controller : MonoBehaviour
         }
 
         //Character Jump
-        if (isGrounded && Input.GetKey(KeyCode.Space))
+        if (isGrounded && Input.GetAxis("Jump")>0)
         {
             rigidbody.velocity = Vector2.up * jumpVel;
 
@@ -73,5 +73,18 @@ public class Character_Controller : MonoBehaviour
             isGrounded = false;
             animator.SetBool("isJumping", true);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("HighJump"))
+        {
+            rigidbody.velocity = Vector2.up * (jumpVel +3f);
+        }
+
+        //if (other.CompareTag("Chest") && Input.GetKeyDown(KeyCode.E))
+        //{
+            
+        //}
     }
 }
