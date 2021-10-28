@@ -7,17 +7,20 @@ public class Character_Controller : MonoBehaviour
     private Rigidbody2D rigidbody;
     private CapsuleCollider2D capsuleCollider;
     [SerializeField] private LayerMask platformLayerMask;
+    private Animator animator;
 
     public float speed= 20f;
     public bool isFacingLeft = false;
     public bool isGrounded = false;
     [SerializeField] public GameObject groundCheck;
     public float jumpVel = 5f;
+
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,6 +31,7 @@ public class Character_Controller : MonoBehaviour
         //Character movement left and right
         float x = Input.GetAxis("Horizontal");
         rigidbody.AddForce(new Vector3(x * speed, 0, 0));
+        animator.SetFloat("xSpeed", Mathf.Abs(x));
 
         //Flip Character in desired direction
         if ((x < 0 && isFacingLeft == false) || (x > 0 && isFacingLeft == true))
@@ -37,9 +41,20 @@ public class Character_Controller : MonoBehaviour
         }
 
         //Character Jump
-        if (isGrounded && Input.GetAxis("Jump")>0)
+        if (isGrounded && Input.GetKey(KeyCode.Space))
         {
             rigidbody.velocity = Vector2.up * jumpVel;
+
+        }
+
+        //Character Duck
+        if(Input.GetKey(KeyCode.S))
+        {
+            animator.SetBool("isDucking", true);
+        }
+        else
+        {
+            animator.SetBool("isDucking", false);
         }
 
     }
@@ -51,10 +66,12 @@ public class Character_Controller : MonoBehaviour
         {
             
             isGrounded = true;
+            animator.SetBool("isJumping", false);
         }
         else
         {
             isGrounded = false;
+            animator.SetBool("isJumping", true);
         }
     }
 }
