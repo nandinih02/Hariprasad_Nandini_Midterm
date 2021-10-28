@@ -98,7 +98,7 @@ public class Character_Controller : MonoBehaviour
 
         for (int i = 0; i <= 100; i++)
         {
-            if (isPressed==true && timer > 0.15f)
+            if (isPressed==true && timer > 0.1f)
             {
 
                 Instantiate(star, spawn.transform.position, Quaternion.identity);

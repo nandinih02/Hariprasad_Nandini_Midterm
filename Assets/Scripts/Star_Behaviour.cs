@@ -5,6 +5,7 @@ using UnityEngine;
 public class Star_Behaviour : MonoBehaviour
 {
     private Rigidbody2D rigidbody;
+    private float timer = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,14 +15,17 @@ public class Star_Behaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if(other.CompareTag("Float"))
+        if(timer>1f)
         {
-            rigidbody.velocity = Vector2.up * 50f;
+            Object.Destroy(this.gameObject);
+            timer = 0;
         }
-        
+
+
+        timer += Time.deltaTime;
+    }
+    private void FixedUpdate()
+    {
+        rigidbody.AddForce(new Vector3(rigidbody.velocity.x, 20f, 0));
     }
 }
