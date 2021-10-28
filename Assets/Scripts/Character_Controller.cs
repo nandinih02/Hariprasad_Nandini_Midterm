@@ -18,6 +18,7 @@ public class Character_Controller : MonoBehaviour
     public GameObject spawn;
     private float timer = 0;
     private bool isPressed = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,6 +103,7 @@ public class Character_Controller : MonoBehaviour
         }
     }
 
+    //Activates a Jump boost
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("HighJump"))
@@ -111,6 +113,8 @@ public class Character_Controller : MonoBehaviour
 
       
     }
+
+    //Checks if character has reached goal
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Chest") && Input.GetKey(KeyCode.E))
