@@ -14,7 +14,10 @@ public class Character_Controller : MonoBehaviour
     public bool isGrounded = false;
     [SerializeField] public GameObject groundCheck;
     public float jumpVel = 5f;
-
+    public GameObject star;
+    public GameObject spawn;
+    private float timer = 0;
+    private bool isPressed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -82,9 +85,27 @@ public class Character_Controller : MonoBehaviour
             rigidbody.velocity = Vector2.up * (jumpVel +3f);
         }
 
-        //if (other.CompareTag("Chest") && Input.GetKeyDown(KeyCode.E))
-        //{
-            
-        //}
+      
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Chest") && Input.GetKeyDown(KeyCode.E))
+        {
+            other.gameObject.GetComponent<Animator>().SetBool("isPressed", true);
+            isPressed = true;
+           
+        }
+
+        for (int i = 0; i <= 100; i++)
+        {
+            if (isPressed==true && timer > 0.15f)
+            {
+
+                Instantiate(star, spawn.transform.position, Quaternion.identity);
+                timer = 0;
+            }
+
+        }
+        timer += Time.deltaTime;
     }
 }

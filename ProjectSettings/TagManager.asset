@@ -6,6 +6,7 @@ TagManager:
   tags:
   - HighJump
   - Chest
+  - Float
   layers:
   - Default
   - TransparentFX
